@@ -1,0 +1,108 @@
+{
+  "rules": {
+    "no-var": 2,
+    "prefer-const": 2,
+    "no-use-before-define": 2,
+    "no-console": 1,
+    "no-debugger": 1,
+    "no-alert": 1,
+    "eol-last": 2,
+    "no-nested-ternary": 2,
+    "consistent-return": 1,
+    "default-case": 2,
+    "no-else-return": 2,
+    "no-trailing-spaces": 2,
+    "no-multi-spaces": 2,
+    "no-new-object": 2,
+    "eqeqeq": 2,
+    "semi": [
+      2,
+      "always"
+    ],
+    "indent": [
+      2,
+      3
+    ],
+    "brace-style": [
+      2,
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "key-spacing": [
+      2,
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "quotes": [
+      2,
+      "single",
+      "avoid-escape"
+    ],
+    "camelcase": [
+      2,
+      {
+        "properties": "never"
+      }
+    ],
+    "no-multiple-empty-lines": [
+      2,
+      {
+        "max": 2
+      }
+    ],
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "local",
+        "args": "after-used"
+      }
+    ],
+    "no-extra-parens": [
+      2,
+      "functions"
+    ],
+    // JSX-A11Y
+    "jsx-a11y/alt-text": 2,
+    "jsx-a11y/img-redundant-alt": 1,
+    "jsx-a11y/aria-role": 2,
+    "jsx-quotes": [
+      2,
+      "prefer-double"
+    ],
+    // React
+    "react/jsx-wrap-multilines": 2,
+    "react/self-closing-comp": 2,
+    "react/jsx-closing-bracket-location": 2,
+    "react/jsx-no-bind": 2,
+    "react/require-render-return": 2,
+    "react/sort-comp": 2,
+    "react/no-is-mounted": 2,
+    "react/no-array-index-key": 1,
+    "react/no-string-refs": 2,
+    "react/no-unknown-property": 2,
+    "react/jsx-tag-spacing": 2,
+    "react/jsx-pascal-case": 2,
+    "react/jsx-closing-tag-location": 2,
+    "react/jsx-boolean-value": 1,
+    "react/prop-types": [
+      2,
+      {
+        "ignore": [
+          "children"
+        ]
+      }
+    ]
+  },
+  "plugins": [
+    "jsx-a11y"
+  ],
+  "extends": [
+    "react-app",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended"
+  ]
+}

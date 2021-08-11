@@ -1,0 +1,303 @@
+openapi: 3.0.1
+info:
+  title: "OnlineDiscussionForumAPI"
+  description: "API mock for AWS serverless project"
+  version: 1.0-oas3
+servers:
+  - url: "https://oo5iinfhd5.execute-api.us-east-2.amazonaws.com/test"
+paths:
+  /signup:
+    post:
+      summary: Registers new user
+      description: "Creates new user in Cognito and auto-verifies the user. Also assigns the role passed in request body. Allowed roles: user (default), moderator and admin (lowercase)"
+      requestBody:
+        $ref: "#/components/requestBodies/RegisterUser"
+      responses:
+        "201":
+          description: "Successfull response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterUserResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequestResponse"
+  /channels/all/public:
+    get:
+      summary: "Reads all the public channels"
+      description: "Reads all the public channels that are currently stored in the system"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllChannelsResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+  /channels:
+    get:
+      summary: "Fetchs a channel by it's id"
+      description: "Fetch the channel info given it's id"
+      parameters:
+        - name: "channelId"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetChannelByIdResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequestResponse"
+    post:
+      summary: Create new channel
+      description: "Creates new channel with the type (public/ private)"
+      requestBody:
+        $ref: "#/components/requestBodies/CreateChannel"
+      responses:
+        "200":
+          description: "Successfull response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateChannelResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequestResponse"
+    delete:
+      summary: Delete the channel
+      description: "Delete the channel with the given id"
+      parameters:
+        - name: "channelId"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteChannelResponse"
+components:
+  requestBodies:
+    CreateChannel:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateChannel"
+    RegisterUser:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RegisterUser"
+  schemas:
+    RegisterUser:
+      type: object
+      required:
+        - username
+        - password
+        - role
+        - email
+      properties:
+        username:
+          type: string
+          example: john_doe
+        password:
+          type: string
+          example: asdf1234
+        role:
+          type: string
+          example: admin or moderator or user
+        email:
+          type: string
+          example: johndoe@example.com
+    RegisterUserResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: SIGNUP_USER
+        result:
+          type: string
+          example: SUCCESS
+        message:
+          type: string
+          example: "User registered successfully"
+    CreateChannel:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          example: "My trending topic"
+        type:
+          type: string
+          example: public
+    DeleteChannelResponse:
+      type: object
+      description: deleted channel response object
+      properties:
+        operation:
+          type: string
+          example: DELETE_CHANNEL
+        result:
+          type: string
+          example: SUCCESS
+        item:
+          type: object
+          properties:
+            channelId:
+              type: string
+              example: "36af31e0-4286-4ff4-8a0f-00cb1d46e56g"
+            createdAt:
+              type: string
+              example: "Thu, 10 Jun 2021 14:56:26 GMT"
+            name:
+              type: string
+              example: "My trending topic"
+            type:
+              type: string
+              example: public
+    CreateChannelResponse:
+      type: object
+      description: newly created channel details response object
+      properties:
+        operation:
+          type: string
+          example: SAVE_CHANNEL
+        result:
+          type: string
+          example: SUCCESS
+        item:
+          type: object
+          properties:
+            channelId:
+              type: string
+              example: "36af31e0-4286-4ff4-8a0f-00cb1d46e56g"
+            createdAt:
+              type: string
+              example: "Thu, 10 Jun 2021 14:56:26 GMT"
+            name:
+              type: string
+              example: "My trending topic"
+            type:
+              type: string
+              example: public
+    GetChannelByIdResponse:
+      type: object
+      description: channel details response object
+      properties:
+        operation:
+          type: string
+          example: READ_CHANNEL
+        result:
+          type: string
+          example: SUCCESS
+        item:
+          type: object
+          properties:
+            channelId:
+              type: string
+              example: "36af31e0-4286-4ff4-8a0f-00cb1d46e56g"
+            createdAt:
+              type: string
+              example: "Thu, 10 Jun 2021 14:56:26 GMT"
+            name:
+              type: string
+              example: "My trending topic"
+            type:
+              type: string
+              example: public
+    GetAllChannelsResponse:
+      type: object
+      description: List of all channels response object
+      properties:
+        operation:
+          type: string
+          example: READ_ALL_CHANNELS
+        result:
+          type: string
+          example: SUCCESS
+        items:
+          type: array
+          items:
+            type: object
+            description: channel detail
+            properties:
+              channelId:
+                type: string
+                example: "36af31e0-4286-4ff4-8a0f-00cb1d46e56g"
+              createdAt:
+                type: string
+                example: "Thu, 10 Jun 2021 14:56:26 GMT"
+              name:
+                type: string
+                example: "My trending topic"
+              type:
+                type: string
+                example: public
+    InvalidRequestResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Current operation
+        result:
+          type: string
+          example: FAILED
+        message:
+          type: string
+          example: Root cause of the error
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Current operation
+        result:
+          type: string
+          example: FAILED
+        message:
+          type: string
+          example: Something went wrong
